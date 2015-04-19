@@ -1,0 +1,3 @@
+%VS%\VC\include
+%WINDIR%\system32
+%VS%\VC\lib

@@ -1,31 +1,9 @@
-﻿Build started 2015/4/16 22:03:00.
-     1>Project "E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\RussianCube\RussianCube.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Debug\RussianCube.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp RussianCube.cpp
-         RussianCube.cpp
-         main.cpp
-         Generating Code...
-       ManifestResourceCompile:
-         D:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\RussianCube.exe.embed.manifest.res" Debug\RussianCube_manifest.rc 
-       Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\RussianCube.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.lib" /MACHINE:X86 Debug\RussianCube.exe.embed.manifest.res
-         Debug\main.obj
-         Debug\RussianCube.obj
-       Manifest:
-         D:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\RussianCube.exe.embed.manifest" /manifest Debug\RussianCube.exe.intermediate.manifest
-         D:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\RussianCube.exe.embed.manifest.res" Debug\RussianCube_manifest.rc 
-       LinkEmbedManifest:
-         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\RussianCube.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.lib" /MACHINE:X86 Debug\RussianCube.exe.embed.manifest.res
-         Debug\main.obj
-         Debug\RussianCube.obj
-         RussianCube.vcxproj -> E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\Debug\RussianCube.exe
-       FinalizeBuildStatus:
-         Deleting file "Debug\RussianCube.unsuccessfulbuild".
-         Touching "Debug\RussianCube.lastbuildstate".
-     1>Done Building Project "E:\课程\上科大图形学2015_Spring\code\redbook\course_examples\example_russian_cube\RussianCube\RussianCube.vcxproj" (build target(s)).
+﻿生成启动时间为 2015/4/19 21:37:53。
+     1>项目“D:\Documents\GitHub\egg\example_russian_cube\RussianCube\RussianCube.vcxproj”在节点 2 上(clean 个目标)。
+     1>_PrepareForClean:
+         正在删除文件“Debug\RussianCube.lastbuildstate”。
+     1>已完成生成项目“D:\Documents\GitHub\egg\example_russian_cube\RussianCube\RussianCube.vcxproj”(clean 个目标)的操作。
 
-Build succeeded.
+生成成功。
 
-Time Elapsed 00:00:02.12
+已用时间 00:00:00.01
