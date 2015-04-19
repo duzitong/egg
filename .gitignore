@@ -1,5 +1,9 @@
-#忽略Debug.Release文件夹
+#忽略Debug, Release, ipch文件夹
 Debug
 Release
+ipch
 
-!glut32.dll
+#忽略sdf, suo文件
+*.sdf
+*.suo
+
