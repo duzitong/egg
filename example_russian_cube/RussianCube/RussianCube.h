@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <stdlib.h>
 
 class MyMatrix4
 {
@@ -28,7 +29,11 @@ public:
 	{
 		e[row][0] = e[row][1] = e[row][2] = e[row][3] = value;
 	}
-	/*void rotate90()
+	void set(int row, int col, int value)
+	{
+		e[row][col] = value;
+	}
+	void rotate90()
 	{
 		int n = 4;
 		int f = floor((float)n/2);
@@ -43,7 +48,7 @@ public:
 			e[n-1-x][n-1-y] = e[n-1-y][x];
 			e[n-1-y][x] = temp;
 		  }
-	}*/
+	}
 private:
 	int e[4][4];
 };
@@ -54,15 +59,65 @@ public:
 	CubeElement(int i_, int j_, int type_) : i(i_),j(j_),type(type_){
 		switch(type){
 			case 0:
-			{
-				mat4.setColumn(1,1);
-			}
+				{
+					// I
+					mat4.setColumn(1,1);
+				}
 				break;
 			case 1:
+				{
+					// L
+					mat4.setColumn(1,1);
+					mat4.set(0,1,0);
+					mat4.set(1,2,1);
+				}
 				break;
 			case 2:
+				{
+					// L'
+					mat4.setColumn(2,1);
+					mat4.set(0,2,0);
+					mat4.set(1,1,1);
+				}
 				break;
-				// ... more
+			case 3:
+				{
+					// Z
+					mat4.set(2,0,1);
+					mat4.set(2,1,1);
+					mat4.set(1,1,1);
+					mat4.set(1,2,1);
+				}
+				break;
+			case 4:
+				{
+					// Z'
+					mat4.set(1,1,1);
+					mat4.set(1,2,1);
+					mat4.set(2,2,1);
+					mat4.set(2,3,1);
+				}
+				break;
+			case 5:
+				{
+					// T
+					mat4.set(2,0,1);
+					mat4.set(2,1,1);
+					mat4.set(2,2,1);
+					mat4.set(1,1,1);
+				}
+				break;
+			case 6:
+				{
+					// O
+					mat4.set(1,1,1);
+					mat4.set(1,2,1);
+					mat4.set(2,1,1);
+					mat4.set(2,2,1);
+				}
+				break;
+			default:
+				{}
 		}
 	}
 
@@ -70,9 +125,9 @@ public:
 	{
 		this->i--;
 	}
-	void moveUp()
+	void rotate()
 	{
-
+		mat4.rotate90();
 	}
 	void moveLeft()
 	{
@@ -116,6 +171,7 @@ public:
 
 	void setMovingLabel(CubeElement* e);		// set the tags of current occupied valid grids to 1
 	void resetMovingLabel(CubeElement* e);		// reset the tags of current occupied grids to 0
+	int get(int row, int col);
 
 	void drawGrid();
 
@@ -146,8 +202,18 @@ public:
 	void step();
 	void left();
 	void right();
-	void pause();
+	void down();
+	void rotate();
 	void end();
+	void nextCube();
+	bool canLeft();
+	bool canRight();
+	bool canDown();
+	bool canRotate();
+	unsigned int seed;
+	int isPause();
+	void pause();
+	void resume();
 
 	void draw();
 
@@ -155,5 +221,6 @@ private:
 	CubeGrid* grid;
 	CubeElement* cube;
 	int nrows, ncols;
+	int _pause;
 };
 
