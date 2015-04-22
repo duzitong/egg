@@ -33,11 +33,11 @@ void CubeGrid::setMovingLabel(CubeElement* e)
 	for (int i = 0; i < 4; ++i)
 	{
 		int I = e->getI() + i;
-		if (I >= nrows) continue;
+		if (I >= nrows || I < 0) continue;
 		for (int j = 0; j < 4; ++j)
 		{
 			int J = e->getJ() + j;
-			if (J >= ncols) continue;
+			if (J >= ncols || J < 0) continue;
 			if (abs(e->getMat().get(i,j)) > 0.5f)
 			{
 				label[I][J] = 1;
@@ -51,20 +51,97 @@ void CubeGrid::resetMovingLabel(CubeElement* e)
 	for (int i = 0; i < 4; ++i)
 	{
 		int I = e->getI() + i;
-		if (I >= nrows) continue;
+		if (I >= nrows || I < 0) continue;
 		for (int j = 0; j < 4; ++j)
 		{
 			int J = e->getJ() + j;
-			if (J >= ncols) continue;
-			label[I][J] = 0;
+			if (J >= ncols || J < 0) continue;
+			if (e->getMat().get(i, j))
+				label[I][J] = 0;
 		}
 	}
 }
 
-int CubeGrid::get(int row, int col)
+int CubeGrid::canLeft(CubeElement *e)
 {
-	return label[row][col];
+	CubeElement tmp = *e;
+	tmp.moveLeft();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (tmp.getMat().get(i,j) == 1)
+			{
+				int _i = tmp.getI()+i, _j = tmp.getJ()+j;
+				if ((_i < 0) || (_j < 0) || (_j >= ncols) || (label[_i][_j] == 1))
+					return 0;
+			}		
+		}
+	}
+	return 1;
 }
+
+int CubeGrid::canRight(CubeElement *e)
+{
+	CubeElement tmp = *e;
+	tmp.moveRight();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (tmp.getMat().get(i,j) == 1)
+			{
+				int _i = tmp.getI()+i, _j = tmp.getJ()+j;
+				if ((_i < 0) || (_j < 0) || (_j >= ncols) || (label[_i][_j] == 1))
+					return 0;
+			}		
+		}
+	}
+	return 1;
+}
+
+int CubeGrid::canDown(CubeElement *e)
+{
+	CubeElement tmp = *e;
+	tmp.moveDown();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (tmp.getMat().get(i,j) == 1)
+			{
+				int _i = tmp.getI()+i, _j = tmp.getJ()+j;
+				if ((_i < 0) || (_j < 0) || (_j >= ncols) || (label[_i][_j] == 1))
+					return 0;
+			}		
+		}
+	}
+	return 1;
+}
+
+int CubeGrid::canRotate(CubeElement *e)
+{
+	CubeElement tmp = *e;
+	tmp.rotate();
+
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			if (tmp.getMat().get(i,j) == 1)
+			{
+				int _i = tmp.getI()+i, _j = tmp.getJ()+j;
+				if ((_i < 0) || (_j < 0) || (_j >= ncols) || (label[_i][_j] == 1))
+					return 0;
+			}		
+		}
+	}
+	return 1;
+}
+
 
 void CubeGrid::drawGrid()
 {
@@ -107,27 +184,23 @@ void CubeGrid::drawGridQuad(int i, int j)
 
 void Game::init(float w_, float h_, int nrows_, int ncols_)
 {
+	_pause = 0;
 	nrows = nrows_;
 	ncols = ncols_;
 	grid = new CubeGrid(w_, h_, nrows, ncols);
 	srand(time(NULL));
-	cube = new CubeElement(nrows-1,ncols/2,0);
+	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
 }
 
 void Game::step()
 {
-	grid->resetMovingLabel(cube);
-	if (canDown())
-		cube->moveDown();
-	else
-		nextCube();
-	grid->setMovingLabel(cube);
+	down();
 }
 
 void Game::left()
 {
 	grid->resetMovingLabel(cube);
-	if (canLeft())
+	if (grid->canLeft(cube))
 		cube->moveLeft();
 	grid->setMovingLabel(cube);
 }
@@ -135,7 +208,7 @@ void Game::left()
 void Game::right()
 {
 	grid->resetMovingLabel(cube);
-	if (canRight())
+	if (grid->canRight(cube))
 		cube->moveRight();
 	grid->setMovingLabel(cube);
 }
@@ -143,17 +216,22 @@ void Game::right()
 void Game::down()
 {
 	grid->resetMovingLabel(cube);
-	if (canDown())
+if (grid->canDown(cube))
+	{
 		cube->moveDown();
+		grid->setMovingLabel(cube);
+	}
 	else
+	{
+		grid->setMovingLabel(cube);
 		nextCube();
-	grid->setMovingLabel(cube);
+	}
 }
 
 void Game::rotate()
 {
 	grid->resetMovingLabel(cube);
-	if (canRotate())
+	if (grid->canRotate(cube))
 		cube->rotate();
 	grid->setMovingLabel(cube);
 }
@@ -163,38 +241,10 @@ void Game::draw()
 	grid->drawGrid();
 }
 
-bool Game::canLeft()
-{
-	//grid->label
-	//cube
-	return true;
-}
-
-bool Game::canRight()
-{
-	//grid->label
-	//cube
-	return true;
-}
-
-bool Game::canDown()
-{
-	//grid->label
-	//cube
-	return true;
-}
-
-bool Game::canRotate()
-{
-	//grid->label
-	//cube
-	return true;
-}
-
 void Game::nextCube()
 {
 	delete cube;
-	cube = new CubeElement(nrows-1,ncols/2,rand()%7);
+	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
 }
 
 void Game::pause()
@@ -207,7 +257,7 @@ void Game::resume()
 	_pause = 0;
 }
 
-int Game::isPause()
+int Game::isPaused()
 {
 	return _pause;
 }

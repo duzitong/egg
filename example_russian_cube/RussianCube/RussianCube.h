@@ -121,6 +121,14 @@ public:
 		}
 	}
 
+	CubeElement(CubeElement &e)
+	{
+		this->i = e.getI();
+		j = e.getJ();
+		mat4 = e.getMat();
+		type = e.getType();
+	}
+
 	void moveDown()
 	{
 		this->i--;
@@ -153,6 +161,10 @@ public:
 	{
 		return j;
 	}
+	int getType()
+	{
+		return type;
+	}
 	MyMatrix4& getMat()
 	{
 		return mat4;
@@ -171,7 +183,10 @@ public:
 
 	void setMovingLabel(CubeElement* e);		// set the tags of current occupied valid grids to 1
 	void resetMovingLabel(CubeElement* e);		// reset the tags of current occupied grids to 0
-	int get(int row, int col);
+	int canLeft(CubeElement *e);
+	int canRight(CubeElement *e);
+	int canDown(CubeElement *e);
+	int canRotate(CubeElement *e);
 
 	void drawGrid();
 
@@ -206,12 +221,8 @@ public:
 	void rotate();
 	void end();
 	void nextCube();
-	bool canLeft();
-	bool canRight();
-	bool canDown();
-	bool canRotate();
 	unsigned int seed;
-	int isPause();
+	int isPaused();
 	void pause();
 	void resume();
 

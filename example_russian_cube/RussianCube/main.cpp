@@ -26,7 +26,7 @@ static void init()
    glShadeModel (GL_FLAT);
    glClearColor (1.0, 1.0, 1.0, 0.0);
 
-   russianCube.init(1.1f, 1.65f, 15, 10);
+   russianCube.init(1.0f, 1.8f, 18, 10);
 
 }
 
@@ -76,23 +76,32 @@ void keyboard(unsigned char key, int x, int y)
 {
    switch (key) {
       case 'w':
-		  russianCube.rotate();
-		  glutPostRedisplay();
+		  if (!russianCube.isPaused())
+		  {
+			  russianCube.rotate();
+			  glutPostRedisplay();
+		  }
 		  break;
 	  case 'a':
-		  /* do something here*/
-		  russianCube.left();
-		  glutPostRedisplay();
+		  if (!russianCube.isPaused())
+		  {
+			  russianCube.left();
+			  glutPostRedisplay();
+		  }
 		  break;
 	  case 's':
-		  russianCube.down();
-		  glutPostRedisplay();
+		  if (!russianCube.isPaused())
+		  {
+			  russianCube.down();
+			  glutPostRedisplay();
+		  }
 		  break;
 	  case 'd':
-		  /* do something here*/
-		  // your commands
-		  russianCube.right();
-		  glutPostRedisplay();
+		  if (!russianCube.isPaused())
+		  {
+			  russianCube.right();
+			  glutPostRedisplay();
+		  }
          break;
 	  case 'p':
 		 russianCube.pause();
@@ -100,6 +109,7 @@ void keyboard(unsigned char key, int x, int y)
 	  case 'r':
 		  russianCube.resume();
 		  break;
+	  case 'q':
       case 27:  /*  Escape key  */
          exit(0);
          break;
@@ -114,11 +124,11 @@ void timer(int value)
 	{
 		russianCube.step();
 		glutPostRedisplay();
-		glutTimerFunc(700, timer, russianCube.isPause());
+		glutTimerFunc(700, timer, russianCube.isPaused());
 	}
 	else
 	{
-		glutTimerFunc(700, timer, russianCube.isPause());
+		glutTimerFunc(700, timer, russianCube.isPaused());
 	}
 }
 
@@ -136,7 +146,7 @@ int main(int argc, char** argv)
    glutReshapeFunc (reshape);
    glutKeyboardFunc (keyboard);
    glutDisplayFunc (display);
-   glutTimerFunc (700, timer, russianCube.isPause());
+   glutTimerFunc (700, timer, russianCube.isPaused());
    glutMainLoop();
    return 0;
 }
