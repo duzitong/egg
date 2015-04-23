@@ -214,6 +214,7 @@ void CubeGrid::drawGridQuad(int i, int j)
 void Game::init(float w_, float h_, int nrows_, int ncols_)
 {
 	_pause = 0;
+	_end = 0;
 	nrows = nrows_;
 	ncols = ncols_;
 	grid = new CubeGrid(w_, h_, nrows, ncols);
@@ -271,14 +272,12 @@ void Game::draw()
 	grid->drawGrid();
 }
 
-int Game::nextCube()
+void Game::nextCube()
 {
 	delete cube;
 	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
 	if (!grid->canDown(cube))
-		return 0;
-	else
-		return 1;
+		_end = 1;
 }
 
 void Game::pause()
@@ -294,4 +293,9 @@ void Game::resume()
 int Game::isPaused()
 {
 	return _pause;
+}
+
+int Game::isEnd()
+{
+	return _end;
 }

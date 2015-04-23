@@ -103,16 +103,17 @@ void keyboard(unsigned char key, int x, int y)
 			  glutPostRedisplay();
 		  }
          break;
-	  case 'p':
-		 russianCube.pause();
+	  case 32: /* Space */
+		  if (russianCube.isPaused())
+			  russianCube.resume();
+		  else
+			  russianCube.pause();
          break;
-	  case 'r':
-		  russianCube.resume();
-		  break;
 	  case 'q':
       case 27:  /*  Escape key  */
          exit(0);
          break;
+	  case 13: /* <CR> */
       default:
          break;
    }
@@ -122,8 +123,15 @@ void timer(int value)
 {
 	if (value == 0)
 	{
-		russianCube.step();
-		glutPostRedisplay();
+		if (!russianCube.isEnd())
+		{
+			russianCube.step();
+			glutPostRedisplay();
+		}
+		else
+		{
+			// End
+		}
 		glutTimerFunc(700, timer, russianCube.isPaused());
 	}
 	else

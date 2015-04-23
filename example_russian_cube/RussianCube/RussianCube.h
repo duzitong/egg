@@ -221,9 +221,10 @@ public:
 	void down();
 	void rotate();
 	void end();
-	int nextCube();
+	void nextCube();
 	unsigned int seed;
 	int isPaused();
+	int isEnd();
 	void pause();
 	void resume();
 
@@ -234,5 +235,6 @@ private:
 	CubeElement* cube;
 	int nrows, ncols;
 	int _pause;
+	int _end;
 };
 
