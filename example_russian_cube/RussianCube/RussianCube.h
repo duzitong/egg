@@ -187,6 +187,7 @@ public:
 	int canRight(CubeElement *e);
 	int canDown(CubeElement *e);
 	int canRotate(CubeElement *e);
+	int checkFullLines();
 
 	void drawGrid();
 
@@ -220,7 +221,7 @@ public:
 	void down();
 	void rotate();
 	void end();
-	void nextCube();
+	int nextCube();
 	unsigned int seed;
 	int isPaused();
 	void pause();

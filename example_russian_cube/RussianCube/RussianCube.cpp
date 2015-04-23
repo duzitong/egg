@@ -142,6 +142,35 @@ int CubeGrid::canRotate(CubeElement *e)
 	return 1;
 }
 
+int CubeGrid::checkFullLines()
+{
+	int isFull, i = 0;
+	int countFull = 0;  // For future use
+	while (i < nrows)
+	{
+		isFull = 1;
+		for (int j = 0; j < ncols; ++j)
+			if (label[i][j] != 1)
+			{
+				isFull = 0;
+				break;
+			}
+		if (isFull)
+		{
+			for (int k = i; k < nrows; ++k)
+				for (int j = 0; j < ncols; ++j)
+					if (k < nrows - 1)
+						label[k][j] = label[k+1][j];
+					else
+						label[k][j] = 0;
+			countFull++;
+		}
+		else
+			i++;
+	}
+	return countFull;
+}
+
 
 void CubeGrid::drawGrid()
 {
@@ -216,7 +245,7 @@ void Game::right()
 void Game::down()
 {
 	grid->resetMovingLabel(cube);
-if (grid->canDown(cube))
+	if (grid->canDown(cube))
 	{
 		cube->moveDown();
 		grid->setMovingLabel(cube);
@@ -224,6 +253,7 @@ if (grid->canDown(cube))
 	else
 	{
 		grid->setMovingLabel(cube);
+		grid->checkFullLines();
 		nextCube();
 	}
 }
@@ -241,10 +271,14 @@ void Game::draw()
 	grid->drawGrid();
 }
 
-void Game::nextCube()
+int Game::nextCube()
 {
 	delete cube;
 	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
+	if (!grid->canDown(cube))
+		return 0;
+	else
+		return 1;
 }
 
 void Game::pause()
