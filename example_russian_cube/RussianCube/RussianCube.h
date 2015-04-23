@@ -229,6 +229,8 @@ public:
 	void resume();
 
 	void draw();
+	void drawScore(char *);
+	void displayScore();
 
 private:
 	CubeGrid* grid;
@@ -236,5 +238,7 @@ private:
 	int nrows, ncols;
 	int _pause;
 	int _end;
+	int _score;
+	void selectFont(int size, int charset, const char* face);
 };
 

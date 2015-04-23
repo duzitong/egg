@@ -76,28 +76,28 @@ void keyboard(unsigned char key, int x, int y)
 {
    switch (key) {
       case 'w':
-		  if (!russianCube.isPaused())
+		  if (!russianCube.isPaused() && !russianCube.isEnd())
 		  {
 			  russianCube.rotate();
 			  glutPostRedisplay();
 		  }
 		  break;
 	  case 'a':
-		  if (!russianCube.isPaused())
+		  if (!russianCube.isPaused() && !russianCube.isEnd())
 		  {
 			  russianCube.left();
 			  glutPostRedisplay();
 		  }
 		  break;
 	  case 's':
-		  if (!russianCube.isPaused())
+		  if (!russianCube.isPaused() && !russianCube.isEnd())
 		  {
 			  russianCube.down();
 			  glutPostRedisplay();
 		  }
 		  break;
 	  case 'd':
-		  if (!russianCube.isPaused())
+		  if (!russianCube.isPaused() && !russianCube.isEnd())
 		  {
 			  russianCube.right();
 			  glutPostRedisplay();
@@ -130,7 +130,7 @@ void timer(int value)
 		}
 		else
 		{
-			// End
+			russianCube.displayScore();
 		}
 		glutTimerFunc(700, timer, russianCube.isPaused());
 	}
@@ -148,7 +148,7 @@ int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB|GLUT_DEPTH);
-   glutInitWindowSize (400, 600);
+   glutInitWindowSize (400, 720);
    glutCreateWindow (argv[0]);
    init();
    glutReshapeFunc (reshape);

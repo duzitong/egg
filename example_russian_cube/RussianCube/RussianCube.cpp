@@ -1,6 +1,8 @@
 #include "RussianCube.h"
 #include <GL/glut.h>
 #include <time.h>
+#include <windows.h>
+#include <stdio.h>
 
 CubeGrid::CubeGrid(float w_, float h_, int nrows_, int ncols_) : 
 	  nrows(nrows_), ncols(ncols_), drow(h_/nrows_), dcol(w_/ncols_) 
@@ -215,6 +217,7 @@ void Game::init(float w_, float h_, int nrows_, int ncols_)
 {
 	_pause = 0;
 	_end = 0;
+	_score = 0;
 	nrows = nrows_;
 	ncols = ncols_;
 	grid = new CubeGrid(w_, h_, nrows, ncols);
@@ -254,7 +257,8 @@ void Game::down()
 	else
 	{
 		grid->setMovingLabel(cube);
-		grid->checkFullLines();
+		int _lines = grid->checkFullLines();
+		_score += _lines * _lines;
 		nextCube();
 	}
 }
@@ -298,4 +302,44 @@ int Game::isPaused()
 int Game::isEnd()
 {
 	return _end;
+}
+
+void Game::drawScore(char *str)
+{
+	static int isFirstCall = 1;
+    static GLuint lists;
+
+    if( isFirstCall ) { 
+         isFirstCall = 0;
+         lists = glGenLists(128);
+         wglUseFontBitmaps(wglGetCurrentDC(), 0, 128, lists);
+     }
+
+    for(; *str!='\0'; ++str)
+         glCallList(lists + *str);
+}
+
+void Game::displayScore()
+{
+	char str[40];
+	 glClear(GL_COLOR_BUFFER_BIT);
+	 selectFont(48, ANSI_CHARSET, "Comic Sans MS");
+     glColor3f(0.0f, 0.0f, 0.0f);
+     glRasterPos2f(0.2f, 1.0f);
+	 drawScore("Your score is:");
+	 
+	 sprintf(str,  "%d", _score);
+	 glRasterPos2f(0.4f, 0.8f);
+     drawScore(str);
+
+     glutSwapBuffers();
+}
+
+void Game::selectFont(int size, int charset, const char* face)
+{
+	HFONT hFont = CreateFontA(size, 0, 0, 0, FW_MEDIUM, 0, 0, 0,  
+        charset, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,  
+        DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, face);  
+    HFONT hOldFont = (HFONT)SelectObject(wglGetCurrentDC(), hFont);  
+    DeleteObject(hOldFont);  
 }
