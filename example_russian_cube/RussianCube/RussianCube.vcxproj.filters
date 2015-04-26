@@ -6,5 +6,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RussianCube.h" />
+    <ClInclude Include="Constant.h" />
   </ItemGroup>
 </Project>

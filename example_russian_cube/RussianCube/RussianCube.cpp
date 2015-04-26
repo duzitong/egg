@@ -3,6 +3,7 @@
 #include <time.h>
 #include <windows.h>
 #include <stdio.h>
+#include "Constant.h"
 
 CubeGrid::CubeGrid(float w_, float h_, int nrows_, int ncols_) : 
 	  nrows(nrows_), ncols(ncols_), drow(h_/nrows_), dcol(w_/ncols_) 
@@ -222,7 +223,7 @@ void Game::init(float w_, float h_, int nrows_, int ncols_)
 	ncols = ncols_;
 	grid = new CubeGrid(w_, h_, nrows, ncols);
 	srand(time(NULL));
-	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
+	cube = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
 }
 
 void Game::step()
@@ -279,7 +280,7 @@ void Game::draw()
 void Game::nextCube()
 {
 	delete cube;
-	cube = new CubeElement(nrows-4,ncols/2-2,rand()%7);
+	cube = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
 	if (!grid->canDown(cube))
 		_end = 1;
 }
@@ -342,4 +343,13 @@ void Game::selectFont(int size, int charset, const char* face)
         DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, face);  
     HFONT hOldFont = (HFONT)SelectObject(wglGetCurrentDC(), hFont);  
     DeleteObject(hOldFont);  
+}
+
+void Game::restart()
+{
+	if (grid)
+		delete grid;
+	if (cube)
+		delete cube;
+	init(GAMEINIT);
 }

@@ -227,6 +227,7 @@ public:
 	int isEnd();
 	void pause();
 	void resume();
+	void restart();
 
 	void draw();
 	void drawScore(char *);
@@ -240,5 +241,6 @@ private:
 	int _end;
 	int _score;
 	void selectFont(int size, int charset, const char* face);
+	
 };
 

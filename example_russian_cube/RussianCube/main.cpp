@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <GL/glut.h>
 #include "RussianCube.h"
+#include "Constant.h"
 
 static int leftFirst = GL_TRUE;
 float _angle = 0.0;
@@ -26,7 +27,7 @@ static void init()
    glShadeModel (GL_FLAT);
    glClearColor (1.0, 1.0, 1.0, 0.0);
 
-   russianCube.init(1.0f, 1.8f, 18, 10);
+   russianCube.init(GAMEINIT);
 
 }
 
@@ -109,6 +110,9 @@ void keyboard(unsigned char key, int x, int y)
 		  else
 			  russianCube.pause();
          break;
+	  case 'r':
+		  russianCube.restart();
+		  break;
 	  case 'q':
       case 27:  /*  Escape key  */
          exit(0);
