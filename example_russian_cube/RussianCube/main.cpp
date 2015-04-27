@@ -136,11 +136,11 @@ void timer(int value)
 		{
 			russianCube.displayScore();
 		}
-		glutTimerFunc(700, timer, russianCube.isPaused());
+		glutTimerFunc(700 * russianCube.getLevelFactor(), timer, russianCube.isPaused());
 	}
 	else
 	{
-		glutTimerFunc(700, timer, russianCube.isPaused());
+		glutTimerFunc(700 * russianCube.getLevelFactor(), timer, russianCube.isPaused());
 	}
 }
 

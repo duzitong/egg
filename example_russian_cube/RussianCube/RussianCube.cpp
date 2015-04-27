@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include "Constant.h"
+#include <cmath>
 
 CubeGrid::CubeGrid(float w_, float h_, int nrows_, int ncols_) : 
 	  nrows(nrows_), ncols(ncols_), drow(h_/nrows_), dcol(w_/ncols_) 
@@ -352,4 +353,11 @@ void Game::restart()
 	if (cube)
 		delete cube;
 	init(GAMEINIT);
+}
+
+float Game::getLevelFactor()
+{
+	float factor;
+	factor = 1 - log((1+ (_score/10) / float(8)));
+	return factor;
 }

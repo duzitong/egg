@@ -232,6 +232,7 @@ public:
 	void draw();
 	void drawScore(char *);
 	void displayScore();
+	float  getLevelFactor();
 
 private:
 	CubeGrid* grid;
