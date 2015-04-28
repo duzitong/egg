@@ -222,9 +222,12 @@ void Game::init(float w_, float h_, int nrows_, int ncols_)
 	_score = 0;
 	nrows = nrows_;
 	ncols = ncols_;
-	grid = new CubeGrid(w_, h_, nrows, ncols);
+	width = w_;
+	height = h_;
+	grid = new CubeGrid(2.0f/3.0f*w_, 2.0f/3.0f*h_, nrows, ncols);
 	srand(time(NULL));
 	cube = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
+	next = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
 }
 
 void Game::step()
@@ -276,12 +279,14 @@ void Game::rotate()
 void Game::draw()
 {
 	grid->drawGrid();
+	drawCurrentState();
 }
 
 void Game::nextCube()
 {
 	delete cube;
-	cube = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
+	cube = next;
+	next = new CubeElement(nrows-4,ncols/2-2,rand()%CUBETYPENUM);
 	if (!grid->canDown(cube))
 		_end = 1;
 }
@@ -323,7 +328,7 @@ void Game::drawScore(char *str)
 
 void Game::displayScore()
 {
-	char str[40];
+	 char str[40];
 	 glClear(GL_COLOR_BUFFER_BIT);
 	 selectFont(48, ANSI_CHARSET, "Comic Sans MS");
      glColor3f(0.0f, 0.0f, 0.0f);
@@ -360,4 +365,77 @@ float Game::getLevelFactor()
 	float factor;
 	factor = 1 - log((1+ (_score/10) / float(8)));
 	return factor;
+}
+
+void Game::drawNextCube()
+{
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			if (next->getMat().get(i, j) == 1)
+				drawNextQuad(i, j);
+}
+
+void Game::drawNextQuad(int row, int col)
+{
+	float dw, dh, ow, oh, x1, y1, x2, y2;
+	dw = dh = width / 18.0f;
+	ow = 2.2f/3.0f * width;
+	oh = 3.0/7.0f * height;
+	x1 = ow + col*dw;
+	x2 = ow + (col+1)*dw;
+	y1 = oh + row*dh;
+	y2 = oh + (row+1)*dh;
+	glColor4f(0, 0, 0, 1);
+	glLineWidth(2);
+	glBegin (GL_LINES);
+	glVertex2f(x1,y1);
+	glVertex2f(x1,y2);
+	glVertex2f(x1,y1);
+	glVertex2f(x2,y1);
+	glVertex2f(x1,y2);
+	glVertex2f(x2,y2);
+	glVertex2f(x2,y1);
+	glVertex2f(x2,y2);
+	glEnd();
+	glColor4f(0, 0, 1, 0.75);
+	glBegin (GL_QUADS);
+	glVertex3f(x1, y1, 0.0);
+	glVertex3f(x2, y1, 0.0);
+	glVertex3f(x2, y2, 0.0);
+	glVertex3f(x1, y2, 0.0);
+	glEnd();
+}
+
+void Game::drawSplitLine()
+{
+	glColor4f(0, 0, 0, 1);
+	glLineWidth(2);
+	glBegin (GL_LINES);
+	glVertex2f(2.0f/3.0f*width, 0);
+	glVertex2f(2.0f/3.0f*width, height);
+	glEnd();
+}
+
+void Game::drawCurrentScore()
+{
+	 char str[40];
+	 selectFont(24, ANSI_CHARSET, "Comic Sans MS");
+     glColor3f(0.0f, 0.0f, 0.0f);
+
+	 glRasterPos2f(0.7f, 1.0f);
+	 drawScore("Next");
+
+     glRasterPos2f(0.75f, 0.5f);
+	 drawScore("current score");
+	 
+	 sprintf(str,  "%d", _score);
+	 glRasterPos2f(0.82f, 0.45f);
+     drawScore(str);
+}
+
+void Game::drawCurrentState()
+{
+	drawSplitLine();
+	drawNextCube();
+	drawCurrentScore();
 }

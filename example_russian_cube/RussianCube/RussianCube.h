@@ -232,16 +232,21 @@ public:
 	void draw();
 	void drawScore(char *);
 	void displayScore();
+	void drawCurrentState();
 	float  getLevelFactor();
 
 private:
 	CubeGrid* grid;
-	CubeElement* cube;
+	CubeElement* cube, *next;
 	int nrows, ncols;
+	float width, height;
 	int _pause;
 	int _end;
 	int _score;
 	void selectFont(int size, int charset, const char* face);
-	
+	void drawNextCube();
+	void drawSplitLine();
+	void drawNextQuad(int row, int col);
+	void drawCurrentScore();
 };
 
